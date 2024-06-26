@@ -41,7 +41,11 @@ export const Shopfront = ({ products, categories }: ShopProps) => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
     const { data: productsData, isLoading } = useQuery<Products>({
-        queryKey: ['products', selectedCategory, [...selectedCategories]],
+        queryKey: [
+            'products', 
+            selectedCategory, 
+            [...selectedCategories]
+        ],
         queryFn: () => getSortedProducts(selectedCategory ?? selectedCategories),
         enabled:
             !!selectedCategory
@@ -60,7 +64,7 @@ export const Shopfront = ({ products, categories }: ShopProps) => {
                 placeholder="Выберите категорию"
                 //type="select"
                 type="multiple"
-                //combo
+                combo
             />
             <div className={styles.products_list}>
                 {!isLoading ? <ProductCards products={productsData ?? products} /> : <Loader />}

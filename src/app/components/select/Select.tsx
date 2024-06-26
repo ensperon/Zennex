@@ -1,6 +1,6 @@
 import { Close as CloseIco } from "../close/Close";
 import styles from "./style.module.css";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, LegacyRef, MutableRefObject, useRef, useState } from "react";
 import { useFocusLost } from "@/app/hooks/useFocusLost";
 import { useClassNames } from "@/app/hooks/useClassNames";
 import { Types, Sizes, SelectProps, InputType } from "./types";
@@ -19,7 +19,8 @@ export const Select = ({
     const [isOpen, setIsOpen] = useState(false);
     const [inputFocused, setInputFocused] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const filteredOptions = options.filter(o => o.includes(searchQuery))
     const optionsList = combo ? filteredOptions : options;
 
@@ -35,10 +36,23 @@ export const Select = ({
     const isType = (inputType: InputType) => {
         return type === inputType;
     }
+    const CloseWithAutocomplete = (strictness: number = 2) => {
+        const fo = filteredOptions
+        if (fo.length && searchQuery.length >= strictness) {
+            combo
+                && !values.includes(fo[0])
+                    && handleChange(fo[0])
+        }
+        Close();
+        setSearchQuery('');
+    }
     const c = useClassNames;
 
     //Close dropdown on click unless target has uniqueClass
-    const uniqueClass = useFocusLost(() => Close())
+    const uniqueClass = useFocusLost(
+        () => CloseWithAutocomplete(), 
+        () => setSearchQuery('')
+    )
 
     const inputText = values.length
         ? values.length === 1
@@ -65,6 +79,16 @@ export const Select = ({
                 ? Open()
                 : setIsOpen(!isOpen)
         },
+        onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter') {
+                CloseWithAutocomplete(1);
+                inputRef.current && inputRef.current.blur()
+            }
+            if(e.key === 'Escape') {
+                Close();
+                inputRef.current && inputRef.current.blur()
+            }
+        },
     }
     const comboProps = {
         ...inputProps,
@@ -79,9 +103,11 @@ export const Select = ({
             if (!values.includes(option)) {
                 handleChange(option)
             } else {
-                const interim = values.slice()
-                interim.splice(interim.findIndex(el => el === option), 1)
-                setValues(interim)
+                const itemToRemove = values.findIndex(el => el === option)
+                setValues([
+                    ...values.slice(0, itemToRemove),
+                    ...values.slice(itemToRemove + 1, values.length)
+                ])
             }
         }
         else {
@@ -96,19 +122,13 @@ export const Select = ({
             ? setValues([...values, newValue])
             : setValue(newValue)
     }
-    useEffect(() => {
-        //Substitute "nearest" value or clear input value if nothing suits
-        if (!isOpen && filteredOptions.length && searchQuery)
-            combo && handleChange(filteredOptions[0])
-        if (!isOpen) setSearchQuery('');
-    }, [isOpen])
 
     return (
         <div className={c(styles.input_wrapper, uniqueClass)}>
             <div>
                 <CloseIco show={!!values.length || !!value} onClick={() => Clear()} className={styles.close} />
                 {combo
-                    ? <input {...comboProps} />
+                    ? <input {...comboProps} ref={inputRef} />
                     : <div {...inputProps}>{inputText}</div>}
 
                 <div

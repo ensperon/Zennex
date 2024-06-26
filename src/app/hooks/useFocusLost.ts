@@ -1,6 +1,9 @@
 import { useEffect, useId } from "react";
 
-export const useFocusLost = (onFocusLost: () => void) => {
+// Executes onFocusLost() on click on the element withown uid className
+// and returns uid that should be added to element classlist
+
+export const useFocusLost = (onFocusLost: () => void, ...sideEffects: [() => void]) => {
     const random = useId();
     const uid = `generated-class__${random}`;
     const onClickAnywhere = (e: MouseEvent) => {
@@ -10,6 +13,7 @@ export const useFocusLost = (onFocusLost: () => void) => {
             (!el?.className?.includes(uid))
                 && onFocusLost();
     }
+    sideEffects.map((fn) => () => fn());
     useEffect(() => {
         window.addEventListener("click", onClickAnywhere);
     }, [])
