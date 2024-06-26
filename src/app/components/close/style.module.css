@@ -1,0 +1,16 @@
+.closeIco{
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: #666;
+    color: white;
+    font-size: 8px;
+    justify-content: center;
+    align-items: center;
+    transition: all .2s ease;
+    display: flex;
+    &:hover{
+        background: #333;
+    }
+}

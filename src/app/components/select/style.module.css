@@ -1,0 +1,120 @@
+.input_wrapper{
+    display: flex;
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    width: fit-content;
+}
+.italic{
+  font-style: italic;
+}
+.placeholderItalic::placeholder{
+    font-style: italic;
+}   
+.input{
+    width: 250px;
+    background: #fbfbff;
+    border-radius: 14px;
+    border: none;
+    color: #222;
+    cursor: pointer;
+    &::placeholder{
+        font-size: 14px;
+        color: #969696;
+    }
+    &.textBlack{
+        color: #222;
+    }
+    &.placeholderBlack::placeholder{
+        color: #222;
+    }
+    &.large{
+        padding: 14px 25px 15px 25px;
+        font-size: 18px;
+        &::placeholder{
+            font-size: 18px;
+        }
+    }
+    &.small{
+        padding: 8px 15px 10px 15px;
+        font-size: 12px;
+        width: 230px;
+        &::placeholder{
+            font-size: 12px;
+        }
+    }
+    &.medium{
+        padding: 12px 15px 13px 15px;
+        font-size: 14px;
+        &::placeholder{
+            font-size: 14px;
+        }
+    }
+    &.combo{
+        cursor: auto;
+    }
+}
+.input:focus{
+    border: none;
+}
+.input:focus-visible{
+    outline: none;
+}
+
+.list{
+    display: flex;
+    width: 250px;
+    background: #fbfbff;
+    border-radius: 14px;
+    padding: 8px 5px 10px 5px;
+    position: absolute;
+    top: 55px;
+    gap: 7px;
+    flex-direction: column;
+    &.small{
+        top: 35px;
+        font-size: 12px;
+    }
+    &.large{
+        top: 55px;
+        width: 280px;
+        font-size: 18px;
+        padding-left: 15px;
+    }
+    &.medium{
+        top: 45px;
+        font-size: 14px;
+        width: 270px;
+    }
+}
+.list_item{
+    padding: 4px 10px 5px 10px;
+    color: #222;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all .2s ease;
+    &.selected{
+        background: #222222;
+        color: #fbfbff;
+        &:hover{
+            background: #333;
+            color: #fbfbff;
+        }
+    }
+    &:hover{
+        background: #cbcbcc;
+    }
+}
+.close{
+    position: absolute;
+    right: 15px;
+    top: calc(50% - 7px);
+}
+.nothing{
+    font-style: italic;
+    color: #969696;
+}
+.nothing:hover{
+    background: #fbfbff;
+    cursor: default;
+}
