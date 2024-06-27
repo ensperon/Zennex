@@ -13,12 +13,12 @@ export const Close = ({
     style?: CSSProperties,
     show?: boolean
 }) => {
-    const c = useClassNames(styles.closeIco, className);
+    const Classes = useClassNames(styles.closeIco, className);
     return (
         show &&
         <div
             style={{ ...style }}
-            className={c}
+            className={Classes}
             onClick={() => onClick()}
         >
             X

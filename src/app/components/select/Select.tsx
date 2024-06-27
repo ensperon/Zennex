@@ -37,18 +37,21 @@ export const Select = ({
         return type === inputType;
     }
     const CloseWithAutocomplete = (strictness: number = 2) => {
-        const fo = filteredOptions
-        if (fo.length && searchQuery.length >= strictness) {
+        if (filteredOptions.length && searchQuery.length >= strictness) {
             combo
-                && !values.includes(fo[0])
-                    && handleChange(fo[0])
+                && !values.includes(filteredOptions[0])
+                    && handleChange(filteredOptions[0])
         }
         Close();
         setSearchQuery('');
     }
+    // Краткое именование допущено только потому что 
+    // сам хук полезной работы по сути не выполняет 
+    // и нужен только для читаемости кода.
     const c = useClassNames;
 
-    //Close dropdown on click unless target has uniqueClass
+    // Закрытие дропдауна при клике в случае,
+    // если цель клика не имеет класса uniqueClass
     const uniqueClass = useFocusLost(
         () => CloseWithAutocomplete(), 
         () => setSearchQuery('')

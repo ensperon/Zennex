@@ -1,7 +1,8 @@
 import { useEffect, useId } from "react";
 
-// Executes onFocusLost() on click on the element withown uid className
-// and returns uid that should be added to element classlist
+// Хук выполняет onFocusLost() при клике по элементу,
+// не имеющему класс uid и возвращает uid,
+// который нужно добавить в список классов элемента
 
 export const useFocusLost = (onFocusLost: () => void, ...sideEffects: [() => void]) => {
     const random = useId();
@@ -9,7 +10,6 @@ export const useFocusLost = (onFocusLost: () => void, ...sideEffects: [() => voi
     const onClickAnywhere = (e: MouseEvent) => {
         const el = e.target
         if (el instanceof Element)
-            //Check if click is outside of elements marked by uniqueClass
             (!el?.className?.includes(uid))
                 && onFocusLost();
     }
