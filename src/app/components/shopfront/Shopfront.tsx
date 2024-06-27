@@ -51,7 +51,6 @@ export const Shopfront = ({ products, categories }: ShopProps) => {
             !!selectedCategory
             || !!selectedCategories.length
     })
-    console.log(categories)
     return (
         <div className={styles.widgetContainer}>
             <Select

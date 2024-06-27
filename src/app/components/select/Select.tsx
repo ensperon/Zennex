@@ -1,6 +1,6 @@
 import { Close as CloseIco } from "../close/Close";
 import styles from "./style.module.css";
-import React, { ChangeEvent, LegacyRef, MutableRefObject, useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { useFocusLost } from "@/app/hooks/useFocusLost";
 import { useClassNames } from "@/app/hooks/useClassNames";
 import { Types, Sizes, SelectProps, InputType } from "./types";
