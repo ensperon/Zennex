@@ -33,10 +33,10 @@ interface BaseSelectProps {
 }
 
 interface SingleSelectProps extends BaseSelectProps {
-    setValue?: (val: string) => void,
-    value?: string,
-    values: never,
-    setValues: never,
+    setValue: (val: string) => void,
+    value: string,
+    values?: never,
+    setValues?: never,
     type: `${Types.select}`
 }
 
