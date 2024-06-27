@@ -35,16 +35,16 @@ interface BaseSelectProps {
 interface SingleSelectProps extends BaseSelectProps {
     setValue?: (val: string) => void,
     value?: string,
-    values?: never,
-    setValues?: never,
+    values: never,
+    setValues: never,
     type: `${Types.select}`
 }
 
 interface MultipleSelectProps extends BaseSelectProps {
     setValue?: never,
     value?: string,
-    values?: string[],
-    setValues?: (vals: string[]) => void
+    values: string[],
+    setValues: (vals: string[]) => void
     type: `${Types.multi}`
 }
 export type TOptionsList = {
