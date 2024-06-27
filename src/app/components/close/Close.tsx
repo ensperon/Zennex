@@ -8,19 +8,17 @@ export const Close = ({
     style,
     show = true,
 }: {
-    className?: string,
+    className: string,
     onClick: () => void,
     style?: CSSProperties,
     show?: boolean
 }) => {
+    const c = useClassNames(styles.closeIco, className);
     return (
         show &&
         <div
             style={{ ...style }}
-            className={useClassNames(
-                styles.closeIco,
-                className
-            )}
+            className={c}
             onClick={() => onClick()}
         >
             X

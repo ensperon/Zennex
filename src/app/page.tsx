@@ -16,8 +16,8 @@ export type Products = Product[];
 export type Categories = Category[];
 
 export default async function Home() {
-  const products: Products = await getProducts();
-  const categories: Categories = await getCategories();
+  const products: Products = await getProducts() as unknown as Products;
+  const categories: Categories = await getCategories() as unknown as Categories;
   return (
     <div className={styles.container}>
       <ProductsProvider>
@@ -26,17 +26,12 @@ export default async function Home() {
     </div>
   );
 }
-const API = 'https://fakestoreapi.com/';
 
-export async function GET(point: string) {
-  const res = await fetch(API + point);
+async function getCategories() {
+  const res = await fetch('https://fakestoreapi.com/products/categories');
   return res.json();
 }
-export async function getProducts() {
-  const res = await GET('products/');
-  return res;
-}
-async function getCategories() {
-  const res = await GET('products/categories');
-  return res;
+async function getProducts() {
+  const res = await fetch('https://fakestoreapi.com/products');
+  return res.json();
 }

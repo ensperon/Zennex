@@ -3,7 +3,7 @@
 import { Select } from "../select/Select"
 import { useState } from "react";
 import styles from "./style.module.css";
-import { Categories, GET, Products, getProducts } from "@/app/page";
+import { Categories, Products } from "@/app/page";
 import { useQuery } from "@tanstack/react-query";
 import { ProductCards } from "../product-card/ProductCards";
 import { Loader } from "../loader/Loader";
@@ -13,14 +13,14 @@ type ShopProps = {
     products: Products,
 }
 const getProductsByCategory = async (category: string | undefined) => {
-    return await GET('products/category/' + category)
+    return await fetch('https://fakestoreapi.com/products/category/' + category)
 }
 const getProductsByCategories = async (categories: Categories | []) => {
     if (!!categories.length) {
         let products: Products = [];
         for (let i = 0; i < categories.length; i++) {
-            const res = await GET('products/category/' + categories[i]);
-            products = [...products, ...res]
+            const res = (await fetch('https://fakestoreapi.com/products/category/' + categories[i])).json();
+            products = [...products, ...await res as Products]
         }
         return products
     }
@@ -33,7 +33,7 @@ const getSortedProducts = async (categories: string | string[] | undefined) => {
             return await getProductsByCategory(categories)
         }
     }
-    return await getProducts();
+    return (await fetch('https://fakestoreapi.com/products/')).json();
 }
 
 export const Shopfront = ({ products, categories }: ShopProps) => {
@@ -51,7 +51,7 @@ export const Shopfront = ({ products, categories }: ShopProps) => {
             !!selectedCategory
             || !!selectedCategories.length
     })
-
+    console.log(categories)
     return (
         <div className={styles.widgetContainer}>
             <Select
@@ -67,7 +67,7 @@ export const Shopfront = ({ products, categories }: ShopProps) => {
                 combo
             />
             <div className={styles.products_list}>
-                {!isLoading ? <ProductCards products={productsData ?? products} /> : <Loader />}
+                {!isLoading ? <ProductCards products={productsData ? productsData : products} /> : <Loader />}
             </div>
         </div>
     )
